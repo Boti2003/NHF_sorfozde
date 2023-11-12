@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Arc2D;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -129,6 +131,12 @@ public class MainFrame extends JFrame {
         actionBar.add(matMarket = makeActionButton(new ImageIcon("food-stand.png"), actionBarBgColor, actionButDim));
         actionBar.add(storage = makeActionButton(new ImageIcon("warehouse.png"), actionBarBgColor, actionButDim));
         actionBar.setBackground(actionBarBgColor);
+        storage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new StoreFrame();
+            }
+        });
 
         return actionBar;
 

@@ -8,6 +8,7 @@ import java.util.Map;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static Data gData = new Data();
+    public static PData player = new PData();
 
     public static void main(String[] args) {
         /*Malt amarillo = new Malt(2,"Amarillo");
@@ -21,7 +22,6 @@ public class Main {
         ls.add(malt);
         ls.get(0).name = "kutyus";
         System.out.println(malt.name);*/
-        PData player = new PData();
         player.tools.add(new BrewingTool(100, 1000, 250,3));
         player.gameName= "Downtown Brewery";
         player.money = 100000000;
