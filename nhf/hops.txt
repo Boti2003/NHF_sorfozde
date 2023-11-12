@@ -1,0 +1,3 @@
+0
+Amarillo	1500
+Nugget	2345
