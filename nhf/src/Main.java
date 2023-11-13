@@ -30,6 +30,7 @@ public class Main {
 
 
 
+
         try {
             DataManager.buildDataStructure();
         } catch (FileNotFoundException e) {
