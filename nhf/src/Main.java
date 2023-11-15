@@ -61,7 +61,7 @@ public class Main {
             }
         }
         player.materials.get("hops").put("randomkomló", new MatElement(new Hop(1000, "randomkomló"), 0));
-
+        player.beers.put("Hazy IPA", new BeerElement(100, new Beer("Hazy IPA", "ipa", 6, 8)));
 
         for (int i = 0; i < Data.keys.length; i++) {
             System.out.println(Data.keys[i]);

@@ -6,6 +6,7 @@ import java.util.List;
 public class StoreFrame extends JFrame {
     private List<StoreTable> matTablesData;
     private List<JTable> matTables;
+    private BeerStoreTable beerStore;
     private JTable beerTable;
 
     public StoreFrame()  {
@@ -21,6 +22,7 @@ public class StoreFrame extends JFrame {
     private void initTables() {
         matTablesData = new ArrayList<StoreTable>();
         matTables = new ArrayList<JTable>();
+        UIManager.put("TabbedPane.selected", MyColors.lightPeach);
         JTabbedPane pane = new JTabbedPane();
 
         //Material table initalization
@@ -33,8 +35,13 @@ public class StoreFrame extends JFrame {
             pane.addTab(key.substring(0,1).toUpperCase()+key.substring(1), scrollPane);
             i++;
         }
+        beerStore = new BeerStoreTable(Main.player.beers.values().stream().toList());
+        beerTable = new JTable(beerStore);
+        JScrollPane scrpane = new JScrollPane(beerTable);
+        pane.addTab("Beers",scrpane );
 
-
+        pane.setFont(new Font("Georgia", Font.PLAIN, 16));
+        pane.setBackground(MyColors.darkOrange);
 
 
         this.add(pane, BorderLayout.CENTER);

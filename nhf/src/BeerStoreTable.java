@@ -17,7 +17,7 @@ public class BeerStoreTable extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        String[] columnames = {"Name", "Style", "Popularity", "Alcohol", "Quantity"};
+        String[] columnames = {"Name", "Style", "Alcohol", "Popularity", "Quantity"};
         return columnames[column];
     }
 
@@ -36,13 +36,18 @@ public class BeerStoreTable extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-            /*switch (columnIndex) {
+            switch (columnIndex) {
                 case 0:
-                    return materials.get(rowIndex).getMat().getName();
+                    return beers.get(rowIndex).getBeer().getName();
                 case 1:
-                    return materials.get(rowIndex).getQuantity() + " " + materials.get(rowIndex).getMat().getUnit();
+                    return beers.get(rowIndex).getBeer().getStyle();
+                case 2:
+                    return beers.get(rowIndex).getBeer().getAlcohol();
+                case 3:
+                    return beers.get(rowIndex).getBeer().getPopularity();
+                case 4:
+                    return beers.get(rowIndex).getQuantity() + " l";
                 default: return null;
-            }*/
-        return null;
+            }
     }
 }
