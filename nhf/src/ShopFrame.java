@@ -3,12 +3,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreFrame extends JFrame {
+public class ShopFrame extends JFrame {
     private List<StoreTable> matTablesData;
     private List<JTable> matTables;
-    private JTable beerTable;
 
-    public StoreFrame()  {
+    public ShopFrame()  {
         this.setSize((int)(MainFrame.screenSize.width/2), (int)(MainFrame.screenSize.height/2));
         this.setTitle("Storage");
         this.setVisible(true);
@@ -23,7 +22,6 @@ public class StoreFrame extends JFrame {
         matTables = new ArrayList<JTable>();
         JTabbedPane pane = new JTabbedPane();
 
-        //Material table initalization
         int i = 0;
         for(String key: Data.keys) {
             matTablesData.add(new StoreTable(Main.player.materials.get(key).values().stream().toList()));
@@ -33,8 +31,6 @@ public class StoreFrame extends JFrame {
             pane.addTab(key.substring(0,1).toUpperCase()+key.substring(1), scrollPane);
             i++;
         }
-
-
 
 
         this.add(pane, BorderLayout.CENTER);

@@ -60,6 +60,7 @@ public class Main {
                 player.materials.get(key).put(mat.getName(), new MatElement(mat, 100));
             }
         }
+        player.materials.get("hops").put("randomkomló", new MatElement(new Hop(1000, "randomkomló"), 0));
 
 
         for (int i = 0; i < Data.keys.length; i++) {
