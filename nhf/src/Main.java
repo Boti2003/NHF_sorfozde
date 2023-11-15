@@ -31,6 +31,9 @@ public class Main {
 
 
 
+
+
+
         try {
             DataManager.buildDataStructure();
         } catch (FileNotFoundException e) {
@@ -51,6 +54,14 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        for(String key: Data.keys) {
+            player.materials.put(key, new HashMap<String, MatElement>());
+            for (Material mat : gData.materials.get(key).values()) {
+                player.materials.get(key).put(mat.getName(), new MatElement(mat, 100));
+            }
+        }
+
+
         for (int i = 0; i < Data.keys.length; i++) {
             System.out.println(Data.keys[i]);
             for (String k : Main.gData.materials.get(Data.keys[i]).keySet()) {
@@ -63,7 +74,7 @@ public class Main {
             for(String k: rec.materials.keySet()) {
                 System.out.println(k + ":");
                 for(MatElement mat: rec.materials.get(k).values()) {
-                    System.out.println( "\t"+ mat.quantity + " " + mat.mat.unit + " " +mat.mat.name + " "+ mat.mat.price);
+                    System.out.println( "\t"+ mat.getQuantity() + " " + mat.getMat().unit + " " +mat.getMat().name + " "+ mat.getMat().price);
                 }
             }
 
