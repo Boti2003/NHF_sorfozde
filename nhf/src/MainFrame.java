@@ -137,6 +137,12 @@ public class MainFrame extends JFrame {
                 new StoreFrame();
             }
         });
+        matMarket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ShopFrame();
+            }
+        });
 
         return actionBar;
 

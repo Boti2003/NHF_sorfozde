@@ -55,12 +55,11 @@ public class Main {
         }
 
         for(String key: Data.keys) {
-            player.materials.put(key, new HashMap<String, MatElement>());
+            player.materials.put(key, new ArrayList<>());
             for (Material mat : gData.materials.get(key).values()) {
-                player.materials.get(key).put(mat.getName(), new MatElement(mat, 100));
+                player.materials.get(key).add(new MatElement(mat, 100));
             }
         }
-        player.materials.get("hops").put("randomkomló", new MatElement(new Hop(1000, "randomkomló"), 0));
         player.beers.put("Hazy IPA", new BeerElement(100, new Beer("Hazy IPA", "ipa", 6, 8)));
 
         for (int i = 0; i < Data.keys.length; i++) {

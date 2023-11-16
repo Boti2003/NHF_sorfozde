@@ -22,13 +22,13 @@ public class StoreFrame extends JFrame {
     private void initTables() {
         matTablesData = new ArrayList<StoreTable>();
         matTables = new ArrayList<JTable>();
-        UIManager.put("TabbedPane.selected", MyColors.lightPeach);
+        //UIManager.put("TabbedPane.selected", MyColors.lightPeach);
         JTabbedPane pane = new JTabbedPane();
 
         //Material table initalization
         int i = 0;
         for(String key: Data.keys) {
-            matTablesData.add(new StoreTable(Main.player.materials.get(key).values().stream().toList()));
+            matTablesData.add(new StoreTable(Main.player.materials.get(key)));
             matTables.add(new JTable(matTablesData.get(i)));
             matTables.get(i).setFillsViewportHeight(true);
             JScrollPane scrollPane = new JScrollPane(matTables.get(i));
@@ -41,7 +41,7 @@ public class StoreFrame extends JFrame {
         pane.addTab("Beers",scrpane );
 
         pane.setFont(new Font("Georgia", Font.PLAIN, 16));
-        pane.setBackground(MyColors.darkOrange);
+        //pane.setBackground(MyColors.darkOrange);
 
 
         this.add(pane, BorderLayout.CENTER);
