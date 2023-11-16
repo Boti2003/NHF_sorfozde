@@ -4,6 +4,10 @@ public class MatElement implements Serializable {
     private Material mat;
     private double quantity;
 
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
     public MatElement(Material mat, double quantity) {
         this.mat = mat;
         this.quantity = quantity;

@@ -11,9 +11,9 @@ public class MainFrame extends JFrame {
     //Map<String, JComponent> statusBarComponents = new HashMap<String, JComponent>();
 
     //statusBar components
-    private JLabel moneyText;
-    private JLabel reputationText;
-    private JLabel dateText;
+    private static JLabel moneyText;
+    private static JLabel reputationText;
+    private static JLabel dateText;
     private JLabel nameText;
 
     private List<JButton> cookingUnits = new ArrayList<JButton>();
@@ -49,6 +49,12 @@ public class MainFrame extends JFrame {
         this.add(nextTurnPanel, BorderLayout.EAST);
         this.add(space, BorderLayout.WEST);
         this.setVisible(true);
+    }
+
+    public static void updateData() {
+        moneyText.setText(String.format("%,d",Main.player.money));
+        reputationText.setText(Double.toString(Main.player.reputation));
+        dateText.setText(Data.startDate.plusWeeks(Main.player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
     }
 
     public void adjustAfterRendered() {

@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShopFrame extends JFrame implements ActionListener {
@@ -36,7 +37,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 
         int i = 0;
         for(String key: Data.keys) {
-            matShopTablesData.add(new ShopTable(Main.gData.materials.get(key).values().stream().toList(), bases[i]));
+            matShopTablesData.add(new ShopTable(Main.gData.materials.get(key).values().stream().toList(), bases[i], this));
             matTables.add(new JTable(matShopTablesData.get(i)));
             matTables.get(i).setFillsViewportHeight(true);
             JScrollPane scrollPane = new JScrollPane(matTables.get(i));
@@ -51,6 +52,33 @@ public class ShopFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("kiskutya");
+        int priceSum = 0;
+        ShopTable actualshopinfo = matShopTablesData.get(pane.getSelectedIndex());
+        HashMap<String, MatElement> actualmap = Main.player.materials.get(Data.keys[pane.getSelectedIndex()]);
+        for(MatElement mate: actualshopinfo.materialCart) {
+            priceSum += (int) (mate.getQuantity() * (mate.getMat().getPrice()/actualshopinfo.base));
+
+        }
+        if(priceSum > Main.player.money) {
+            JOptionPane.showMessageDialog(this, "You don't have enough money to buy this");
+        }
+        else {
+            for(MatElement mate: actualshopinfo.materialCart) {
+                if (mate.getQuantity() > 0) {
+                    if (actualmap.containsKey(mate.getMat().getName())) {
+                        actualmap.get(mate.getMat().getName()).setQuantity(actualmap.get(mate.getMat().getName()).getQuantity() + mate.getQuantity());
+                    } else {
+                        actualmap.put(mate.getMat().getName(), new MatElement(mate.getMat(), mate.getQuantity()));
+                    }
+
+                }
+                mate.setQuantity(0);
+
+            }
+
+            Main.player.money -= priceSum;
+            MainFrame.updateData();
+            actualshopinfo.fireTableDataChanged();
+        }
     }
 }

@@ -9,7 +9,7 @@ public class PData {
     int money;
     int reputation;
 
-    Map<String, List<MatElement>> materials = new HashMap<String,List<MatElement>>();
+    Map<String, HashMap<String, MatElement>> materials = new HashMap<String,HashMap<String, MatElement>>();
     Map<String, Recipe> recipes = new HashMap<String, Recipe>();
     Map<String, BeerElement> beers = new HashMap<String, BeerElement>();
     List<BrewingTool> tools = new ArrayList<BrewingTool>();
