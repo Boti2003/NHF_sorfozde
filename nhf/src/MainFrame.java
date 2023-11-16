@@ -57,6 +57,7 @@ public class MainFrame extends JFrame {
         dateText.setText(Data.startDate.plusWeeks(Main.player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
     }
 
+
     public void adjustAfterRendered() {
         int compwidth= moneyText.getWidth() + reputationText.getWidth() + dateText.getWidth() + 25*5 +100;
         System.out.println(compwidth);
@@ -147,6 +148,12 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ShopFrame();
+            }
+        });
+        recipes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RecipeFrame();
             }
         });
 

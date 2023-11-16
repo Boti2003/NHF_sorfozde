@@ -42,7 +42,6 @@ public class ShopFrame extends JFrame implements ActionListener {
             matTables.get(i).setFillsViewportHeight(true);
             JScrollPane scrollPane = new JScrollPane(matTables.get(i));
             pane.addTab(key.substring(0,1).toUpperCase()+key.substring(1), scrollPane);
-            System.out.println("FRom shopFrame: " +i);
             i++;
         }
 
