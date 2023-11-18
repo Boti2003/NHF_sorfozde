@@ -1,2 +1,2 @@
 0
-Helles Lager	lager	20000	5.2	4.5	3	Crystal:5;Pale Ale:4	Amarillo:4;	American yeast:400;	;	;
+Helles Lager	lager	20000	5.2	4.5	3	Crystal:5;Pale Ale:4	Amarillo:4;	American yeast:400;	Sour Cherry:2;Lemon:2;	Cinnamon:20;Kardamom:30;

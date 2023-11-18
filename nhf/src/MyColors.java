@@ -7,4 +7,9 @@ public class MyColors {
     static Color mandarin = Color.decode("#ffb142");
     static  Color fireOrange = Color.decode("#cd6133");
     static  Color hibiscus = Color.decode("#fd9644");
+    static Color brick = Color.decode("#F97F51");
+    static Color levander = Color.decode("#9980FA");
+    static Color purple = Color.decode("#5758BB");
+    static Color lightblue = Color.decode("#82ccdd");
+    static Color cream = Color.decode("#ffda79");
 }

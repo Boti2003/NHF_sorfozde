@@ -24,14 +24,9 @@ public class Main {
         System.out.println(malt.name);*/
         player.tools.add(new BrewingTool(100, 1000, 250,3));
         player.gameName= "Downtown Brewery";
-        player.money = 100000000;
+        player.money = 1000;
         MainFrame mainFrame = new MainFrame(player);
         mainFrame.adjustAfterRendered();
-
-
-
-
-
 
 
         try {
@@ -41,7 +36,7 @@ public class Main {
         }
 
 
-        try {
+        /*try {
             FileOutputStream fout = new FileOutputStream(new File("proba"));
             ObjectOutputStream out = new ObjectOutputStream(fout);
             out.writeObject(Main.gData);
@@ -52,7 +47,7 @@ public class Main {
             in.close();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
         for (String k: Data.keys) {
             player.materials.put(k, new HashMap<>());

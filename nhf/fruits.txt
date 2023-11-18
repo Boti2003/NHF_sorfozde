@@ -1,2 +1,3 @@
 0
 Sour Cherry	2500
+Lemon	500
