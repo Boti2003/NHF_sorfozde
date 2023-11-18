@@ -28,14 +28,14 @@ public class StoreFrame extends JFrame {
         //Material table initalization
         int i = 0;
         for(String key: Data.keys) {
-            matTablesData.add(new StoreTable(Main.player.materials.get(key).values().stream().toList()));
+            matTablesData.add(new StoreTable(MainFrame.player.materials.get(key).values().stream().toList()));
             matTables.add(new JTable(matTablesData.get(i)));
             matTables.get(i).setFillsViewportHeight(true);
             JScrollPane scrollPane = new JScrollPane(matTables.get(i));
             pane.addTab(key.substring(0,1).toUpperCase()+key.substring(1), scrollPane);
             i++;
         }
-        beerStore = new BeerStoreTable(Main.player.beers.values().stream().toList());
+        beerStore = new BeerStoreTable(MainFrame.player.beers.values().stream().toList());
         beerTable = new JTable(beerStore);
         JScrollPane scrpane = new JScrollPane(beerTable);
         pane.addTab("Beers",scrpane );

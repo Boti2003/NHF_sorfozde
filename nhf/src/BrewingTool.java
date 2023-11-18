@@ -1,4 +1,6 @@
-public class BrewingTool {
+import java.io.Serializable;
+
+public class BrewingTool implements Serializable {
     BrewingProcess actualBrewing;
     private int maintenanceCost;
     private int costToBuy;

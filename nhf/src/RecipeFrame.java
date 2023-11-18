@@ -24,13 +24,13 @@ public class RecipeFrame extends JFrame {
 
         JPanel pan = new JPanel();
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
-        for(Recipe rec: Main.player.recipes.values()) {
+        for(Recipe rec: MainFrame.player.recipes.values()) {
             pan.add(drawRecipeUnit(rec, true));
             pan.add(Box.createRigidArea(new Dimension((int)(MainFrame.screenSize.width/2.5), 20)));
         }
 
-        for(Recipe rc: Main.gData.recipes.values()) {
-            if(!Main.player.recipes.containsKey(rc.getName())) {
+        for(Recipe rc: MainFrame.gData.recipes.values()) {
+            if(!MainFrame.player.recipes.containsKey(rc.getName())) {
                 pan.add(drawRecipeUnit(rc, false));
                 pan.add(Box.createRigidArea(new Dimension((int)(MainFrame.screenSize.width/2.5), 20)));
             }
@@ -54,12 +54,12 @@ public class RecipeFrame extends JFrame {
         purchaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Main.player.money < sumToBuy) {
+                if (MainFrame.player.money < sumToBuy) {
                     showMessage("You don't have enough money to buy this!");
                 } else {
                     for (Recipe rec : selectedRecipes) {
-                        Main.player.recipes.put(rec.getName(), rec);
-                        Main.player.money -= sumToBuy;
+                        MainFrame.player.recipes.put(rec.getName(), rec);
+                        MainFrame.player.money -= sumToBuy;
                         MainFrame.updateData();
                         closeAndReOpen();
                     }

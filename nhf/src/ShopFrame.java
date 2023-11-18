@@ -37,7 +37,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 
         int i = 0;
         for(String key: Data.keys) {
-            matShopTablesData.add(new ShopTable(Main.gData.materials.get(key).values().stream().toList(), bases[i], this));
+            matShopTablesData.add(new ShopTable(MainFrame.gData.materials.get(key).values().stream().toList(), bases[i], this));
             matTables.add(new JTable(matShopTablesData.get(i)));
             matTables.get(i).setFillsViewportHeight(true);
             JScrollPane scrollPane = new JScrollPane(matTables.get(i));
@@ -53,12 +53,12 @@ public class ShopFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int priceSum = 0;
         ShopTable actualshopinfo = matShopTablesData.get(pane.getSelectedIndex());
-        HashMap<String, MatElement> actualmap = Main.player.materials.get(Data.keys[pane.getSelectedIndex()]);
+        HashMap<String, MatElement> actualmap = MainFrame.player.materials.get(Data.keys[pane.getSelectedIndex()]);
         for(MatElement mate: actualshopinfo.materialCart) {
             priceSum += (int) (mate.getQuantity() * (mate.getMat().getPrice()/actualshopinfo.base));
 
         }
-        if(priceSum > Main.player.money) {
+        if(priceSum > MainFrame.player.money) {
             JOptionPane.showMessageDialog(this, "You don't have enough money to buy this");
         }
         else {
@@ -75,7 +75,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 
             }
 
-            Main.player.money -= priceSum;
+            MainFrame.player.money -= priceSum;
             MainFrame.updateData();
             actualshopinfo.fireTableDataChanged();
         }

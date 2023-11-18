@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Arc2D;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
@@ -11,6 +14,8 @@ public class MainFrame extends JFrame {
     //Map<String, JComponent> statusBarComponents = new HashMap<String, JComponent>();
 
     //statusBar components
+    public static Data gData = new Data();
+    public static PData player;
     private static JLabel moneyText;
     private static JLabel reputationText;
     private static JLabel dateText;
@@ -22,39 +27,70 @@ public class MainFrame extends JFrame {
     private JButton matMarket;
     private JButton storage;
     private JButton nextTurn;
+    private JButton buyNewTool;
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    public static void main(String[] args) {
+        try {
+            DataManager.buildDataStructure();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
-    public MainFrame(PData pData) {
+        new MenuFrame();
+        /*MainFrame mainFrame = new MainFrame();
+        mainFrame.adjustAfterRendered();*/
+
+    }
+
+    public MainFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //this.setSize(1366, 768);
-        UIManager.put("Button.select", Color.LIGHT_GRAY);
+        UIManager.put("Button.select", MyColors.lightPeach);
+        this.setBackground(MyColors.mandarin);
 
         JPanel nextTurnPanel = new JPanel();
         nextTurn = makeActionButton(new ImageIcon("hourglass.png"), MyColors.mandarin, new Dimension(95, 95));
-        nextTurnPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 90, 725));
-        nextTurnPanel.setPreferredSize(new Dimension(200, 100));
+        nextTurnPanel.setLayout(new BoxLayout(nextTurnPanel, BoxLayout.Y_AXIS));
+        nextTurnPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height/1.45))));
         nextTurnPanel.add(nextTurn);
         nextTurnPanel.setBackground(MyColors.mandarin);
 
-        JPanel space = new JPanel();
-        space.setPreferredSize(new Dimension(200,100));
-        space.setBackground(MyColors.mandarin);
+        JPanel plusToolPanel = new JPanel();
+        buyNewTool = makeActionButton(new ImageIcon("plus.png"), MyColors.mandarin, new Dimension(95, 95));
+        plusToolPanel.setLayout(new BoxLayout(plusToolPanel, BoxLayout.Y_AXIS));
+        plusToolPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height/1.45))));
+        plusToolPanel.add(buyNewTool);
+        buyNewTool.setAlignmentX(CENTER_ALIGNMENT);
+        plusToolPanel.setBackground(MyColors.mandarin);
 
-        this.add(initStatusBar(pData), BorderLayout.NORTH);
-        this.add(initCookingUnit(pData), BorderLayout.CENTER);
+
+
+        this.add(initStatusBar(), BorderLayout.NORTH);
+        this.add(initCookingUnit(), BorderLayout.CENTER);
         this.add(initActionBar(), BorderLayout.SOUTH);
         this.add(nextTurnPanel, BorderLayout.EAST);
-        this.add(space, BorderLayout.WEST);
+        this.add(plusToolPanel, BorderLayout.WEST);
         this.setVisible(true);
+        adjustAfterRendered();
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    DataManager.saveData();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
     public static void updateData() {
-        moneyText.setText(String.format("%,d",Main.player.money));
-        reputationText.setText(Double.toString(Main.player.reputation));
-        dateText.setText(Data.startDate.plusWeeks(Main.player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
+        moneyText.setText(String.format("%,d",player.money));
+        reputationText.setText(Double.toString(player.reputation));
+        dateText.setText(Data.startDate.plusWeeks(player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
     }
 
 
@@ -64,8 +100,8 @@ public class MainFrame extends JFrame {
         nameText.setPreferredSize(new Dimension(screenSize.width - compwidth, 35));
     }
 
-    private JPanel initCookingUnit(PData pData) {
-        Dimension cookingUnitDim = new Dimension(350, 350);
+    private JPanel initCookingUnit() {
+        Dimension cookingUnitDim = new Dimension(screenSize.width/5, screenSize.width/5);
         JPanel cookingUnitPanel = new JPanel();
         Color cookingUnitbgColor = MyColors.mandarin;
         cookingUnitPanel.setBackground(cookingUnitbgColor);
@@ -77,9 +113,9 @@ public class MainFrame extends JFrame {
             cookingUnit.setBackground(cookingUnitbgColor);
             cookingUnit.setBorder(null);
             cookingUnit.setFocusable(false);
-            if(pData.tools.size()-1 >= i) {
+            if(player.tools.size()-1 >= i) {
                ImageIcon brewingUnit = new ImageIcon();
-                switch(pData.tools.get(i).getLevel()) {
+                switch(player.tools.get(i).getLevel()) {
                     case 1:
                         brewingUnit = new ImageIcon("brewing1.png");
                         break;
@@ -107,21 +143,21 @@ public class MainFrame extends JFrame {
     }
 
 
-    private JPanel initStatusBar(PData pData) {
+    private JPanel initStatusBar() {
         JPanel statusBar = new JPanel();
         statusBar.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 0)); //(int)(screenSize.getWidth()*0.013)
         statusBar.setBackground(MyColors.hibiscus);
         Dimension iconDim = new Dimension(35,35);
 
-        nameText = new JLabel(pData.gameName);
+        nameText = new JLabel(player.gameName);
         nameText.setFont(new Font("Bernard MT Condensed", Font.PLAIN, 30));
         nameText.setHorizontalAlignment(JLabel.CENTER);
 
-        statusBar.add(moneyText = makeLabel(new ImageIcon("coins.png"),String.format("%,d",pData.money), iconDim));
-        statusBar.add(reputationText= makeLabel(new ImageIcon("star.png"), Double.toString(pData.reputation), iconDim));
+        statusBar.add(moneyText = makeLabel(new ImageIcon("coins.png"),String.format("%,d",player.money), iconDim));
+        statusBar.add(reputationText= makeLabel(new ImageIcon("star.png"), Double.toString(player.reputation), iconDim));
         statusBar.add(nameText);
         statusBar.add(Box.createRigidArea(new Dimension(100, 35)));
-        statusBar.add(dateText = makeLabel(new ImageIcon("calendar.png"), Data.startDate.plusWeeks(pData.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")), iconDim));
+        statusBar.add(dateText = makeLabel(new ImageIcon("calendar.png"), Data.startDate.plusWeeks(player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")), iconDim));
 
         return statusBar;
     }
