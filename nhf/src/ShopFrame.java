@@ -16,6 +16,7 @@ public class ShopFrame extends JFrame implements ActionListener {
     private int[] bases = {10, 100, 10, 1, 100};
 
     public ShopFrame()  {
+        MainFrame.openShop = true;
         this.setSize((int)(MainFrame.screenSize.width/2), (int)(MainFrame.screenSize.height/2));
         this.setTitle("Material Market");
         this.setVisible(true);

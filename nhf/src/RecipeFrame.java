@@ -18,6 +18,7 @@ public class RecipeFrame extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        MainFrame.openRecipe = true;
 
         JPanel pan = new JPanel();
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -81,6 +82,7 @@ public class RecipeFrame extends JFrame {
     }
     private void closeAndReOpen() {
         new RecipeFrame();
+
         this.dispose();
     }
     private void showMessage(String message) {

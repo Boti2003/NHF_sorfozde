@@ -35,6 +35,12 @@ public class MainFrame extends JFrame {
     public static boolean openTools = false;
     public static boolean openMarket = false;
 
+    public static JFrame storageFrame = new JFrame();
+    public static JFrame shopFrame = new JFrame();
+    public static JFrame toolFrame = new JFrame();
+    public static JFrame recipeFrame = new JFrame();
+    public static JFrame marketFrame = new JFrame();
+
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -46,8 +52,7 @@ public class MainFrame extends JFrame {
         }
 
         new MenuFrame();
-        /*MainFrame mainFrame = new MainFrame();
-        mainFrame.adjustAfterRendered();*/
+
 
     }
 
@@ -64,6 +69,12 @@ public class MainFrame extends JFrame {
         nextTurnPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height/1.45))));
         nextTurnPanel.add(nextTurn);
         nextTurnPanel.setBackground(MyColors.mandarin);
+        nextTurn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TurnManager.newTurn();
+            }
+        });
 
         JPanel plusToolPanel = new JPanel();
         buyNewTool = makeActionButton(new ImageIcon("plus.png"), MyColors.mandarin, new Dimension(95, 95));
@@ -182,19 +193,31 @@ public class MainFrame extends JFrame {
         cookingUnits.get(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BrewingFrame(0);
+                if(!openTools) {
+                    toolFrame = new BrewingFrame(0);
+                    recipeFrame.dispose();
+                    openRecipe = false;
+                }
             }
         });
         cookingUnits.get(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BrewingFrame(1);
+                if(!openTools) {
+                    toolFrame = new BrewingFrame(0);
+                    recipeFrame.dispose();
+                    openRecipe = false;
+                }
             }
         });
         cookingUnits.get(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BrewingFrame(2);
+                if(!openTools) {
+                    toolFrame = new BrewingFrame(0);
+                    recipeFrame.dispose();
+                    openRecipe = false;
+                }
             }
         });
 
@@ -238,9 +261,10 @@ public class MainFrame extends JFrame {
         storage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!openStorage) {
-                    new StoreFrame();
-                    openStorage = true;
+                if(!openStorage ) {
+                    storageFrame = new StoreFrame();
+                    shopFrame.dispose();
+                    openShop = false;
                 }
             }
         });
@@ -248,8 +272,10 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!openShop) {
-                    new ShopFrame();
-                    openShop = true;
+                    shopFrame = new ShopFrame();
+                    storageFrame.dispose();
+                    openStorage = false;
+
                 }
             }
         });
@@ -257,8 +283,10 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!openRecipe) {
-                    new RecipeFrame();
-                    openRecipe = true;
+                    recipeFrame = new RecipeFrame();
+                    toolFrame.dispose();
+                    openTools = false;
+
                 }
             }
         });

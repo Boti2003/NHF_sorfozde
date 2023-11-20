@@ -6,6 +6,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.RowId;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class BrewingFrame extends JFrame {
     public BrewingFrame(int index) {
         this.setTitle("Beer Brewing");
         this.setResizable(false);
+        MainFrame.openTools = true;
         idx = index;
         thisTool = MainFrame.player.tools.get(index);
         if(Objects.isNull(thisTool.getActualBrewing())) {
@@ -43,6 +46,12 @@ public class BrewingFrame extends JFrame {
         else {
             brewingBeer();
         }
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainFrame.openTools = false;
+            }
+        });
     }
     public void close() {
         this.dispose();
