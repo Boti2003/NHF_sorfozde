@@ -1,10 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -59,10 +56,10 @@ public class RecipeFrame extends JFrame {
                 } else {
                     for (Recipe rec : selectedRecipes) {
                         MainFrame.player.recipes.put(rec.getName(), rec);
-                        MainFrame.player.money -= sumToBuy;
-                        MainFrame.updateData();
-                        closeAndReOpen();
                     }
+                    MainFrame.player.money -= sumToBuy;
+                    MainFrame.updateData();
+                    closeAndReOpen();
 
                 }
             }
@@ -73,6 +70,13 @@ public class RecipeFrame extends JFrame {
         this.add(Box.createRigidArea(new Dimension(frameSize.width/12, frameSize.height)), BorderLayout.WEST);
         this.add(south, BorderLayout.SOUTH);
         this.add(textpan, BorderLayout.NORTH);
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainFrame.openRecipe = false;
+            }
+        });
 
     }
     private void closeAndReOpen() {
@@ -140,7 +144,7 @@ public class RecipeFrame extends JFrame {
                 mats[i] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                 i++;
             }
-            unit.add(new JLabel(multiLineGenerator(mats, 8)));
+            unit.add(new JLabel(MainFrame.multiLineGenerator(mats, 8)));
         }
         String[] frutsandyeasts = new String[(!thisrecipe.materials.get(Data.keys[2]).isEmpty() ? thisrecipe.materials.get(Data.keys[2]).size()+1:0) + (!thisrecipe.materials.get(Data.keys[3]).isEmpty() ? thisrecipe.materials.get(Data.keys[3]).size()+1:0)];
         int i = 0;
@@ -156,7 +160,7 @@ public class RecipeFrame extends JFrame {
                 }
                 frutsandyeasts[i-1] += "<br/>";
             }
-            unit.add(new JLabel(multiLineGenerator(frutsandyeasts, 6)));
+            unit.add(new JLabel(MainFrame.multiLineGenerator(frutsandyeasts, 6)));
         }
 
         String[] spices = new String[(!thisrecipe.materials.get(Data.keys[4]).isEmpty() ? thisrecipe.materials.get(Data.keys[4]).size()+1:0)];
@@ -168,7 +172,7 @@ public class RecipeFrame extends JFrame {
                 spices[j] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                 j++;
             }
-            unit.add(new JLabel(multiLineGenerator(spices,8)));
+            unit.add(new JLabel(MainFrame.multiLineGenerator(spices,8)));
         }
         unit.addMouseListener(new MouseAdapter() {
             boolean selected = false;
@@ -194,15 +198,5 @@ public class RecipeFrame extends JFrame {
         return unit;
     }
 
-    private String multiLineGenerator(String[] strings, int preferredLinesize) {
-        String finalStr = "<html>" + strings[0];
-        for(int i = 1; i < strings.length; i++) {
-            finalStr = finalStr + "<br/>" + strings[i];
-        }
-        for(int i = 0; i < preferredLinesize - strings.length; i++) {
-            finalStr = finalStr + "<br/>";
-        }
-        finalStr = finalStr + "</html>";
-        return finalStr;
-    }
+
 }

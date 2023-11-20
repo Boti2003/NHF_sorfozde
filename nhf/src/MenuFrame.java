@@ -22,6 +22,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     public MenuFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.setSize(new Dimension(MainFrame.screenSize.width/2, MainFrame.screenSize.height/2));
 
         JPanel northPanel = new JPanel();
@@ -104,7 +105,9 @@ public class MenuFrame extends JFrame implements ActionListener {
         this.add(Box.createRigidArea(new Dimension(100, 0)), BorderLayout.EAST);
         this.add(Box.createRigidArea(new Dimension(100, 0)), BorderLayout.WEST);
 
+
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
 
 
 
@@ -162,7 +165,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         }
         else if(e.getSource().equals(newGame)) {
             PData gamePlay = new PData(field.getText(), 0, 1000000, 1);
-            gamePlay.tools.add(new BrewingTool(100, 1000, 250,1));
+            gamePlay.tools.add(MainFrame.gData.tools.get(0));
             MainFrame.gData.players.add(gamePlay);
             for (String k: Data.keys) {
                 gamePlay.materials.put(k, new HashMap<>());

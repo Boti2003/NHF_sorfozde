@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,12 @@ public class StoreFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         initTables();
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainFrame.openStorage = false;
+            }
+        });
 
     }
 

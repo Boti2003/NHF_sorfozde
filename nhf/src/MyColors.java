@@ -12,4 +12,6 @@ public class MyColors {
     static Color purple = Color.decode("#5758BB");
     static Color lightblue = Color.decode("#82ccdd");
     static Color cream = Color.decode("#ffda79");
+    static Color aqua = Color.decode("#006266");
+    static Color lightgreen = Color.decode("#C4E538");
 }

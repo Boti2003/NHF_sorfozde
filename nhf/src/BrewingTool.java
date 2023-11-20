@@ -1,11 +1,19 @@
 import java.io.Serializable;
 
 public class BrewingTool implements Serializable {
-    BrewingProcess actualBrewing;
+    private BrewingProcess actualBrewing = null;
     private int maintenanceCost;
     private int costToBuy;
     private int capacity;
     private int level;
+
+    public BrewingProcess getActualBrewing() {
+        return actualBrewing;
+    }
+
+    public void setActualBrewing(BrewingProcess actualBrewing) {
+        this.actualBrewing = actualBrewing;
+    }
 
     public BrewingTool(int maintenanceCost, int costToBuy, int capacity, int level) {
         this.maintenanceCost = maintenanceCost;

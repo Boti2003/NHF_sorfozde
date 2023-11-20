@@ -1,2 +1,5 @@
-Amarillo	1500
-Nugget	2345
+Saaz	1400
+Idaho 7	2500
+Galaxy	2700
+Simcoe	2100
+Target	1800

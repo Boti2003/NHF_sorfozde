@@ -1,1 +1,3 @@
-Helles Lager	lager	20000	5.2	4.5	3	Crystal:5;Pale Ale:4	Amarillo:4;	American yeast:400;	Sour Cherry:2;Lemon:2;	Cinnamon:20;Kardamom:30;
+Pils Lager	Lager	15000	4.4	8	5	Pilsner:10;	Saaz:180;	Saflager 34/70:50;	;	;
+Lazy Hazy	NEIPA	30000	5.6	7	3	Pale Ale:7;Wheat:2.5;Flaked Oats:1.2;Flaked Rice:1.2;Flaked Wheat:1.2;	Idaho 7:240;Galaxy:240;Simcoe:180;	Lalbrew New England:75;	;	;
+Imperial Stout	Stout	25000	10.0	6	7	Maris Otter: 21;Cookie:2.5;Red Ale:1.5;Chocolate Light:1;	Target:250;	Nottingham:85;	;	;

@@ -7,7 +7,6 @@ public class DataManager {
     static File rfile = new File("recipes.txt"); //recept txt
     static File efile; //esemenyek txt
     static File dfile = new File("general_data"); //general data sorositott file
-    static File tfile; // eszkozok file
     public static void buildDataStructure() throws IOException, ClassNotFoundException {
 
         if(!dfile.exists()) {
@@ -15,6 +14,7 @@ public class DataManager {
                 MainFrame.gData.materials.put(Data.keys[i], readMatfile(Data.keys[i] +".txt"));
             }
             readRecipefile(rfile);
+            initBrewingTools();
         }
         else {
             FileInputStream fin = new FileInputStream(dfile);
@@ -23,6 +23,11 @@ public class DataManager {
             in.close();
 
         }
+    }
+    public static void initBrewingTools() {
+        MainFrame.gData.tools.add(new BrewingTool(75000, 150000, 250, 1));
+        MainFrame.gData.tools.add(new BrewingTool(100000, 250000, 500, 2));
+        MainFrame.gData.tools.add(new BrewingTool(150000, 400000, 1000, 3));
     }
 
 

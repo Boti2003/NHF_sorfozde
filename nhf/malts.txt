@@ -1,2 +1,11 @@
-Crystal	2000
-Pale Ale	1200
+Pilsner	6000
+Pale Ale	5700
+Wheat	5700
+Flaked Oats	8200
+Flaked Rice	15000
+Flaked Wheat	8200
+Maris Otter	7200
+Cookie	9800
+Red Ale	8200
+Chocolate Light	10800
+Chocolate Wheat	15500

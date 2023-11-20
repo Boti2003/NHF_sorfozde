@@ -21,13 +21,20 @@ public class MainFrame extends JFrame {
     private static JLabel dateText;
     private JLabel nameText;
 
-    private List<JButton> cookingUnits = new ArrayList<JButton>();
+    private static List<JButton> cookingUnits = new ArrayList<JButton>();
     private JButton market;
     private JButton recipes;
     private JButton matMarket;
     private JButton storage;
     private JButton nextTurn;
     private JButton buyNewTool;
+
+    public static boolean openStorage = false;
+    public static boolean openRecipe = false;
+    public static boolean openShop = false;
+    public static boolean openTools = false;
+    public static boolean openMarket = false;
+
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -91,6 +98,39 @@ public class MainFrame extends JFrame {
         moneyText.setText(String.format("%,d",player.money));
         reputationText.setText(Double.toString(player.reputation));
         dateText.setText(Data.startDate.plusWeeks(player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
+        upgradeCookingUnitUI();
+
+
+    }
+
+    private static void upgradeCookingUnitUI() {
+        Dimension cookingUnitDim = new Dimension(screenSize.width/5, screenSize.width/5);
+        for (int i = 0; i < 3; i++) {
+            JButton cookingUnit = cookingUnits.get(i);
+            if(player.tools.size()-1 >= i) {
+                ImageIcon brewingUnit = new ImageIcon();
+                switch(player.tools.get(i).getLevel()) {
+                    case 1:
+                        brewingUnit = new ImageIcon("brewing1.png");
+                        break;
+                    case 2:
+                        brewingUnit = new ImageIcon("brewing2.png");
+                        break;
+                    case 3:
+                        brewingUnit = new ImageIcon("brewing3.png");
+                        break;
+                }
+                cookingUnit.setIcon(new ImageIcon(brewingUnit.getImage().getScaledInstance(cookingUnitDim.width, cookingUnitDim.height, Image.SCALE_SMOOTH)));
+
+
+            }
+            else {
+                cookingUnit.setEnabled(false);
+                cookingUnit.setIcon(new ImageIcon(new ImageIcon("brewing.png").getImage().getScaledInstance(cookingUnitDim.width, cookingUnitDim.height,Image.SCALE_SMOOTH)));
+
+            }
+
+        }
     }
 
 
@@ -128,6 +168,7 @@ public class MainFrame extends JFrame {
                 }
                 cookingUnit.setIcon(new ImageIcon(brewingUnit.getImage().getScaledInstance(cookingUnitDim.width, cookingUnitDim.height, Image.SCALE_SMOOTH)));
 
+
             }
             else {
 
@@ -138,6 +179,26 @@ public class MainFrame extends JFrame {
             cookingUnitPanel.add(cookingUnit);
             cookingUnits.add(cookingUnit);
         }
+        cookingUnits.get(0).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new BrewingFrame(0);
+            }
+        });
+        cookingUnits.get(1).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new BrewingFrame(1);
+            }
+        });
+        cookingUnits.get(2).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new BrewingFrame(2);
+            }
+        });
+
+
 
         return cookingUnitPanel;
     }
@@ -177,19 +238,28 @@ public class MainFrame extends JFrame {
         storage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new StoreFrame();
+                if(!openStorage) {
+                    new StoreFrame();
+                    openStorage = true;
+                }
             }
         });
         matMarket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ShopFrame();
+                if(!openShop) {
+                    new ShopFrame();
+                    openShop = true;
+                }
             }
         });
         recipes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new RecipeFrame();
+                if(!openRecipe) {
+                    new RecipeFrame();
+                    openRecipe = true;
+                }
             }
         });
 
@@ -216,5 +286,17 @@ public class MainFrame extends JFrame {
         label.setHorizontalTextPosition(JLabel.RIGHT);
         label.setVisible(true);
         return label;
+    }
+
+    public static String multiLineGenerator(String[] strings, int preferredLinesize) {
+        String finalStr = "<html>" + strings[0];
+        for(int i = 1; i < strings.length; i++) {
+            finalStr = finalStr + "<br/>" + strings[i];
+        }
+        for(int i = 0; i < preferredLinesize - strings.length; i++) {
+            finalStr = finalStr + "<br/>";
+        }
+        finalStr = finalStr + "</html>";
+        return finalStr;
     }
 }
