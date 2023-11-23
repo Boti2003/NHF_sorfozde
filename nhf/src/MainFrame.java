@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Arc2D;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
@@ -64,9 +65,9 @@ public class MainFrame extends JFrame {
         this.setBackground(MyColors.mandarin);
 
         JPanel nextTurnPanel = new JPanel();
-        nextTurn = makeActionButton(new ImageIcon("hourglass.png"), MyColors.mandarin, new Dimension(95, 95));
+        nextTurn = makeActionButton(new ImageIcon("hourglass.png"), MyColors.mandarin, new Dimension((int)(screenSize.width*0.05), (int)(screenSize.width*0.05)));
         nextTurnPanel.setLayout(new BoxLayout(nextTurnPanel, BoxLayout.Y_AXIS));
-        nextTurnPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height/1.45))));
+        nextTurnPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height*0.65))));
         nextTurnPanel.add(nextTurn);
         nextTurnPanel.setBackground(MyColors.mandarin);
         nextTurn.addActionListener(new ActionListener() {
@@ -77,9 +78,9 @@ public class MainFrame extends JFrame {
         });
 
         JPanel plusToolPanel = new JPanel();
-        buyNewTool = makeActionButton(new ImageIcon("plus.png"), MyColors.mandarin, new Dimension(95, 95));
+        buyNewTool = makeActionButton(new ImageIcon("plus.png"), MyColors.mandarin, new Dimension((int)(screenSize.width*0.05),(int)(screenSize.width*0.05)));
         plusToolPanel.setLayout(new BoxLayout(plusToolPanel, BoxLayout.Y_AXIS));
-        plusToolPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height/1.45))));
+        plusToolPanel.add(Box.createRigidArea(new Dimension(screenSize.width/13, (int)(screenSize.height*0.65))));
         plusToolPanel.add(buyNewTool);
         buyNewTool.setAlignmentX(CENTER_ALIGNMENT);
         plusToolPanel.setBackground(MyColors.mandarin);
@@ -108,9 +109,26 @@ public class MainFrame extends JFrame {
     public static void updateData() {
         moneyText.setText(String.format("%,d",player.money));
         reputationText.setText(Double.toString(player.reputation));
-        dateText.setText(Data.startDate.plusWeeks(player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
+        dateText.setText(generateDate(Data.startDate.plusWeeks(player.turn)));
         upgradeCookingUnitUI();
 
+
+    }
+    public static String generateDate(LocalDate date) {
+        String strReturnDat= String.valueOf(date.getYear());
+        if(date.getMonth().getValue() < 10) {
+            strReturnDat += ".0"+date.getMonth();
+        }
+        else {
+            strReturnDat += "." +date.getMonth();
+        }
+        if(date.getDayOfMonth() < 10) {
+            strReturnDat += ".0"+date.getDayOfMonth();
+        }
+        else {
+            strReturnDat += "." +date.getDayOfMonth();
+        }
+        return strReturnDat;
 
     }
 
@@ -248,9 +266,9 @@ public class MainFrame extends JFrame {
 
     private JPanel initActionBar() {
         JPanel actionBar = new JPanel();
-        Dimension actionButDim = new Dimension(80, 80);
-        actionBar.setPreferredSize(new Dimension(1000, 120));
-        actionBar.setLayout(new FlowLayout(FlowLayout.CENTER,30, 30));
+        Dimension actionButDim = new Dimension((int)(screenSize.height*0.075), (int)(screenSize.height*0.075));
+        actionBar.setPreferredSize(new Dimension(1000, (int)(screenSize.height*0.11)));
+        actionBar.setLayout(new FlowLayout(FlowLayout.CENTER,30, 25));
         Color actionBarBgColor = MyColors.hibiscus;
 
         actionBar.add(market = makeActionButton(new ImageIcon("pub.png"), actionBarBgColor, actionButDim));

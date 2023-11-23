@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class BrewingFrame extends JFrame {
-    private Dimension framesize = new Dimension(MainFrame.screenSize.width/2, MainFrame.screenSize.height/2);
+    private Dimension framesize = new Dimension((int)(MainFrame.screenSize.width*0.75), (int)(MainFrame.screenSize.height*0.75));
     private BrewingTool thisTool;
 
     private Recipe recipetobrew;
@@ -58,7 +58,9 @@ public class BrewingFrame extends JFrame {
     }
     public void closeAndReopen() {
         new BrewingFrame(idx);
+        MainFrame.openTools = false;
         this.dispose();
+
     }
     private void brewingBeer() {
         this.setSize(framesize);

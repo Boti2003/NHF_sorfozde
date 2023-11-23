@@ -23,7 +23,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     public MenuFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setSize(new Dimension(MainFrame.screenSize.width/2, MainFrame.screenSize.height/2));
+        this.setSize(new Dimension((int)(MainFrame.screenSize.width*0.75), (int)(MainFrame.screenSize.height/2)));
 
         JPanel northPanel = new JPanel();
         JLabel wtext = new JLabel("Welcome to the game!");

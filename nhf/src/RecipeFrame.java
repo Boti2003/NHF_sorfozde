@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RecipeFrame extends JFrame {
-    private Dimension frameSize = new Dimension((int)(MainFrame.screenSize.width/1.7), (int)(MainFrame.screenSize.height/1.7));
+    private Dimension frameSize = new Dimension((int)(MainFrame.screenSize.width*0.75), (int)(MainFrame.screenSize.height*0.75));
     private List<Recipe> selectedRecipes = new ArrayList<>();
     private JLabel sumMoney = new JLabel();
     private int sumToBuy = 0;
