@@ -219,6 +219,7 @@ public class BrewingFrame extends JFrame {
                         if (amount < 0 || amount > thisTool.getCapacity()) {
                             JOptionPane.showMessageDialog(null, "Please give a valid number beetwen 1 and " + thisTool.getCapacity());
                             brewingQuantity = 0;
+                            updateRecipePan();
                         } else {
                             brewingQuantity = amount;
                             updateRecipePan();

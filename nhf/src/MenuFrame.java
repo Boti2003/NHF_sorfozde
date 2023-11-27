@@ -125,7 +125,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             lab.setAlignmentX(Component.CENTER_ALIGNMENT);
             pan.add(lab);
             pan.add(Box.createRigidArea(new Dimension(0, 5)));
-            JLabel lab2 = new JLabel("Money: " + String.format("%,d",dat.money) + "; Date: "+ Data.startDate.plusWeeks(dat.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")));
+            JLabel lab2 = new JLabel("Money: " + String.format("%,d",dat.money) + "; Date: "+ MainFrame.generateDate(Data.startDate.plusWeeks(dat.turn)));
             lab2.setAlignmentX(Component.CENTER_ALIGNMENT);
             pan.add(lab2);
             pan.setBorder(BorderFactory.createLineBorder(Color.black, 2));

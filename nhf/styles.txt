@@ -1,0 +1,8 @@
+NEIPA	1.6
+IPA	1.4
+Lager	1.0
+Stout	1.5
+Ale	1.3
+Seasonal	1.4
+Wheat	1.2
+Sour	1.5

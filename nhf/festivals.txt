@@ -1,0 +1,7 @@
+Spring Beer Fest	5;20	150	Sour;IPA	180000	2.5
+Summer Farewell Beer Fest	8;29	250	Lager;IPA	230000	2.4
+Downtown Craft Beer Fest	9;12	200	NEIPA;Sour	250000	3.5
+Belgian Beer Fest	9;20	160	Ale;Wheat	240000	4.6
+Oktoberfest	10;5	800	Lager;Wheat	700000	3
+Christmas Beer Fest	12;15	450	Seasonal;Stout	580000	4
+Suburb Beer Fest	2;20	200	Lager;Ale	120000	1

@@ -1,0 +1,1 @@
+The Titan	50	100	Lager;Wheat	45000	1

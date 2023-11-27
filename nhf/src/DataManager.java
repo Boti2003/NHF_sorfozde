@@ -1,11 +1,12 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 
 public class DataManager {
     static File rfile = new File("recipes.txt"); //recept txt
-    static File efile; //esemenyek txt
+    static File pfile = new File("pubs.txt");
+    static File ffile = new File("festivals.txt");
+    static File sfile = new File("styles.txt");
     static File dfile = new File("general_data"); //general data sorositott file
     public static void buildDataStructure() throws IOException, ClassNotFoundException {
 
@@ -13,7 +14,10 @@ public class DataManager {
             for (int i = 0; i < Data.keys.length; i++) {
                 MainFrame.gData.materials.put(Data.keys[i], readMatfile(Data.keys[i] +".txt"));
             }
-            readRecipefile(rfile);
+            readRecipefile();
+            readPubFile();
+            readFestFile();
+            readStyleFile();
             initBrewingTools();
         }
         else {
@@ -25,14 +29,42 @@ public class DataManager {
         }
     }
     public static void initBrewingTools() {
-        MainFrame.gData.tools.add(new BrewingTool(75000, 150000, 250, 1));
-        MainFrame.gData.tools.add(new BrewingTool(100000, 250000, 500, 2));
-        MainFrame.gData.tools.add(new BrewingTool(150000, 400000, 1000, 3));
+        MainFrame.gData.tools.add(new BrewingTool(50000, 150000, 250, 1));
+        MainFrame.gData.tools.add(new BrewingTool(75000, 250000, 500, 2));
+        MainFrame.gData.tools.add(new BrewingTool(100000, 400000, 1000, 3));
+    }
+    public static void readStyleFile() throws FileNotFoundException {
+        Scanner fSc = new Scanner(sfile);
+        while (fSc.hasNext()) {
+            String[] split = fSc.nextLine().split("\t");
+            MainFrame.gData.styles.put(split[0], Double.parseDouble(split[1]));
+        }
+    }
+
+    public static void readPubFile() throws FileNotFoundException {
+        Scanner fSc = new Scanner(pfile);
+        while(fSc.hasNext()) {
+            String[] temp = fSc.nextLine().split("\t");
+            MainFrame.gData.pubs.add(new Pub(temp[0],Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Arrays.stream(temp[3].split(";")).toList(), Integer.parseInt(temp[4]), Double.parseDouble(temp[5])));
+        }
+
+    }
+
+    public static void readFestFile() throws FileNotFoundException {
+        Scanner fSc = new Scanner(ffile);
+        while(fSc.hasNext()) {
+            String[] temp = fSc.nextLine().split("\t");
+            String[] date = temp[1].split(";");
+            MainFrame.gData.festivals.add(new Festival(temp[0], LocalDate.of(2020,Integer.parseInt(date[0]),Integer.parseInt(date[1])), Integer.parseInt(temp[2]), Arrays.stream(temp[3].split(";")).toList(), Integer.parseInt(temp[4]), Double.parseDouble(temp[5])));
+        }
+
     }
 
 
-    public static void readRecipefile(File rFile) throws FileNotFoundException {
-        Scanner fSc = new Scanner(rFile);
+
+
+    public static void readRecipefile() throws FileNotFoundException {
+        Scanner fSc = new Scanner(rfile);
         while(fSc.hasNext()) {
             String[] temp = fSc.nextLine().split("\t");
             MainFrame.gData.recipes.put(temp[0], new Recipe(temp[0], temp[1], Integer.parseInt(temp[2]), Double.parseDouble(temp[3]), Double.parseDouble(temp[4]), Integer.parseInt(temp[5])));

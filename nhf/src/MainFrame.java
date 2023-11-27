@@ -117,16 +117,16 @@ public class MainFrame extends JFrame {
     public static String generateDate(LocalDate date) {
         String strReturnDat= String.valueOf(date.getYear());
         if(date.getMonth().getValue() < 10) {
-            strReturnDat += ".0"+date.getMonth();
+            strReturnDat += ".0"+date.getMonth().getValue();
         }
         else {
-            strReturnDat += "." +date.getMonth();
+            strReturnDat += "." +date.getMonth().getValue();
         }
         if(date.getDayOfMonth() < 10) {
-            strReturnDat += ".0"+date.getDayOfMonth();
+            strReturnDat += ".0"+date.getDayOfMonth()+".";
         }
         else {
-            strReturnDat += "." +date.getDayOfMonth();
+            strReturnDat += "." +date.getDayOfMonth()+".";
         }
         return strReturnDat;
 
@@ -259,7 +259,7 @@ public class MainFrame extends JFrame {
         statusBar.add(reputationText= makeLabel(new ImageIcon("star.png"), Double.toString(player.reputation), iconDim));
         statusBar.add(nameText);
         statusBar.add(Box.createRigidArea(new Dimension(100, 35)));
-        statusBar.add(dateText = makeLabel(new ImageIcon("calendar.png"), Data.startDate.plusWeeks(player.turn).format(DateTimeFormatter.ofPattern("YYYY.MM.DD")), iconDim));
+        statusBar.add(dateText = makeLabel(new ImageIcon("calendar.png"), generateDate(Data.startDate.plusWeeks(player.turn)), iconDim));
 
         return statusBar;
     }
@@ -304,6 +304,15 @@ public class MainFrame extends JFrame {
                     recipeFrame = new RecipeFrame();
                     toolFrame.dispose();
                     openTools = false;
+
+                }
+            }
+        });
+        market.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!openMarket) {
+                    marketFrame = new MarketFrame();
 
                 }
             }
