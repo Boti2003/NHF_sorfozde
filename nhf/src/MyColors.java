@@ -14,4 +14,6 @@ public class MyColors {
     static Color cream = Color.decode("#ffda79");
     static Color aqua = Color.decode("#006266");
     static Color lightgreen = Color.decode("#C4E538");
+    static Color corall = Color.decode("#dff9fb");
+    static Color orchid = Color.decode("#FEA47F");
 }

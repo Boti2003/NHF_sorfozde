@@ -10,8 +10,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.RowId;
 import java.sql.SQLOutput;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class BrewingFrame extends JFrame {
@@ -33,6 +36,10 @@ public class BrewingFrame extends JFrame {
     private Color bgcolor = MyColors.lightblue;
     int idx;
     int brewingQuantity;
+    DecimalFormat formatter = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US));
+
+
+
 
     public BrewingFrame(int index) {
         this.setTitle("Beer Brewing");
@@ -287,6 +294,7 @@ public class BrewingFrame extends JFrame {
                          }
                      }
                     close();
+                     MainFrame.openTools = false;
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "<html>You don't have enough material to brew this recipe:(( <br/> Go and grab some more at the shop!!</html>");
@@ -347,7 +355,7 @@ public class BrewingFrame extends JFrame {
                 int i = 1;
                 mats[0] = "<font size=4>" + Data.keys[k].substring(0, 1).toUpperCase() + Data.keys[k].substring(1) + ":</font>";
                 for (MatElement mate : recipetobrew.materials.get(Data.keys[k]).values()) {
-                    mats[i] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
+                    mats[i] = formatter.format(mate.getQuantity())+ " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                     i++;
                 }
                 maltandhops[k].setText(MainFrame.multiLineGenerator(mats, 7));
@@ -362,7 +370,7 @@ public class BrewingFrame extends JFrame {
                         i++;
                     }
                     for (MatElement mate : recipetobrew.materials.get(Data.keys[k]).values()) {
-                        frutsandyeasts[i] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
+                        frutsandyeasts[i] = formatter.format(mate.getQuantity()) + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                         i++;
                     }
                     frutsandyeasts[i - 1] += "<br/>";
@@ -376,7 +384,7 @@ public class BrewingFrame extends JFrame {
                 spices[j] = "<font size=4>" + Data.keys[4].substring(0, 1).toUpperCase() + Data.keys[4].substring(1) + ":</font>";
                 j++;
                 for (MatElement mate : recipetobrew.materials.get(Data.keys[4]).values()) {
-                    spices[j] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
+                    spices[j] = formatter.format(mate.getQuantity()) + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                     j++;
                 }
                 spicelab.setText(MainFrame.multiLineGenerator(spices, 7));

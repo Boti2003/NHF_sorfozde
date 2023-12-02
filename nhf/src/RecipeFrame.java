@@ -2,8 +2,11 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class RecipeFrame extends JFrame {
@@ -12,6 +15,7 @@ public class RecipeFrame extends JFrame {
     private JLabel sumMoney = new JLabel();
     private int sumToBuy = 0;
     private JButton purchaseButton;
+    DecimalFormat formatter = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US));
     public RecipeFrame() {
         this.setSize(frameSize.width, frameSize.height);
         this.setTitle("Recipe Store");
@@ -143,7 +147,7 @@ public class RecipeFrame extends JFrame {
             int i = 1;
             mats[0] = "<font size=4>"+Data.keys[k].substring(0, 1).toUpperCase() + Data.keys[k].substring(1) + ":</font>";
             for (MatElement mate : thisrecipe.materials.get(Data.keys[k]).values()) {
-                mats[i] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
+                mats[i] = formatter.format(mate.getQuantity()) + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                 i++;
             }
             unit.add(new JLabel(MainFrame.multiLineGenerator(mats, 8)));
@@ -157,7 +161,7 @@ public class RecipeFrame extends JFrame {
                     i++;
                 }
                 for (MatElement mate : thisrecipe.materials.get(Data.keys[k]).values()) {
-                    frutsandyeasts[i] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
+                    frutsandyeasts[i] = formatter.format(mate.getQuantity()) + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                     i++;
                 }
                 frutsandyeasts[i-1] += "<br/>";
@@ -171,7 +175,7 @@ public class RecipeFrame extends JFrame {
             spices[j] = "<font size=4>"+Data.keys[4].substring(0, 1).toUpperCase() + Data.keys[4].substring(1) + ":</font>";
             j++;
             for(MatElement mate: thisrecipe.materials.get(Data.keys[4]).values()) {
-                spices[j] = mate.getQuantity() + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
+                spices[j] = formatter.format(mate.getQuantity()) + " " + mate.getMat().getUnit() + " " + mate.getMat().getName();
                 j++;
             }
             unit.add(new JLabel(MainFrame.multiLineGenerator(spices,8)));

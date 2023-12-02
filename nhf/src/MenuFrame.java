@@ -21,6 +21,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     private List<JPanel> panels;
 
     public MenuFrame() {
+        this.setTitle("Menu");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setSize(new Dimension((int)(MainFrame.screenSize.width*0.75), (int)(MainFrame.screenSize.height/2)));
@@ -165,13 +166,15 @@ public class MenuFrame extends JFrame implements ActionListener {
         }
         else if(e.getSource().equals(newGame)) {
             PData gamePlay = new PData(field.getText(), 0, 1000000, 1);
-            gamePlay.tools.add(MainFrame.gData.tools.get(0));
+            BrewingTool toolzero = MainFrame.gData.tools.get(0);
+            gamePlay.tools.add(new BrewingTool(toolzero.getMaintenanceCost(),toolzero.getCostToBuy(), toolzero.getCapacity(), toolzero.getLevel() ));
             MainFrame.gData.players.add(gamePlay);
             for (String k: Data.keys) {
                 gamePlay.materials.put(k, new HashMap<>());
             }
             MainFrame.player = gamePlay;
             new MainFrame();
+            TurnManager.manageMarket();
             this.dispose();
 
         }

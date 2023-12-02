@@ -1,1 +1,2 @@
-The Titan	50	100	Lager;Wheat	45000	1
+The Titan	50	100	Lager	45000	1
+Antigravity	100	150	Lager;IPA	55000	2

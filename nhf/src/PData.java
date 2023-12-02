@@ -8,7 +8,7 @@ public class PData implements Serializable {
     String gameName;
     int turn;
     int money;
-    int reputation;
+    double reputation;
     int repuPoints;
 
     Map<String, HashMap<String, MatElement>> materials = new HashMap<String,HashMap<String, MatElement>>();
@@ -18,7 +18,7 @@ public class PData implements Serializable {
     List<Festival> festivals = new ArrayList<>();
     List<Pub> pubs = new ArrayList<>();
 
-    public PData(String gameName, int turn, int money, int reputation) {
+    public PData(String gameName, int turn, int money, double reputation) {
         this.gameName = gameName;
         this.turn = turn;
         this.money = money;

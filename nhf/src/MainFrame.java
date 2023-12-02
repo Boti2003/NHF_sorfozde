@@ -6,11 +6,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Arc2D;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
+/**
+ * A játékot vezérlő, és a fő ablakot létrehozó osztály
+ */
 public class MainFrame extends JFrame {
     //Map<String, JComponent> statusBarComponents = new HashMap<String, JComponent>();
 
@@ -45,7 +50,12 @@ public class MainFrame extends JFrame {
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    /**
+     * Program belépési pontja, elindítja az adatok beolvasását, majd megnyitja a menüt reprezentáló ablakot
+     * @param args
+     */
     public static void main(String[] args) {
+
         try {
             DataManager.buildDataStructure();
         } catch (IOException | ClassNotFoundException e) {
@@ -57,12 +67,16 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * Konstruktor a fő ablakhoz, itt épül fel az elsődleges vezérlő ablak által használt GUI.
+     */
     public MainFrame() {
+        this.setTitle("Brew Your Dream");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //this.setSize(1366, 768);
         UIManager.put("Button.select", MyColors.lightPeach);
         this.setBackground(MyColors.mandarin);
+
 
         JPanel nextTurnPanel = new JPanel();
         nextTurn = makeActionButton(new ImageIcon("hourglass.png"), MyColors.mandarin, new Dimension((int)(screenSize.width*0.05), (int)(screenSize.width*0.05)));
@@ -85,6 +99,33 @@ public class MainFrame extends JFrame {
         buyNewTool.setAlignmentX(CENTER_ALIGNMENT);
         plusToolPanel.setBackground(MyColors.mandarin);
 
+        buyNewTool.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player.tools.size() >= 3) {
+                    JOptionPane.showMessageDialog(null,  "You can't buy more brewing tools, even your brewery has limitations:(( Don't forget that you can still upgrade them, if not all of them are on Level 3!");
+                } else {
+                    String[] options = {"Buy", "No, thanks"};
+                    int selection = JOptionPane.showOptionDialog(null, "<html>You are about to buy a new brewing tool. It would cost " + String.format("%,d",MainFrame.gData.tools.get(0).getCostToBuy()) + ", and comes with a monthly maintenance cost of " + String.format("%,d",MainFrame.gData.tools.get(0).getMaintenanceCost()) +
+                                    ".<br/> The tool's capacity is " + MainFrame.gData.tools.get(0).getCapacity() + " litres. Are you wish to proceed?</html>",
+                            "Buy new brewing tool", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    if(selection == 0) {
+                        if(player.money <= gData.tools.get(0).getCostToBuy()) {
+                            JOptionPane.showMessageDialog(null, "You don't have enough money to buy a new brewing tool:((");
+                        }
+                        else {
+                            player.tools.add(new BrewingTool(gData.tools.get(0).getMaintenanceCost(), gData.tools.get(0).getCostToBuy(), gData.tools.get(0).getCapacity(), gData.tools.get(0).getLevel()));
+                            player.money -= gData.tools.get(0).getCostToBuy();
+                            updateData();
+                            upgradeCookingUnitUI();
+                        }
+
+                    }
+                }
+
+            }
+        });
+
 
 
         this.add(initStatusBar(), BorderLayout.NORTH);
@@ -106,14 +147,21 @@ public class MainFrame extends JFrame {
         });
     }
 
+    /**
+     * GUI frissítése az adatok megváltozása esetén
+     */
     public static void updateData() {
         moneyText.setText(String.format("%,d",player.money));
-        reputationText.setText(Double.toString(player.reputation));
+        reputationText.setText(String.format(Locale.US,"%.1f",player.reputation));
         dateText.setText(generateDate(Data.startDate.plusWeeks(player.turn)));
         upgradeCookingUnitUI();
-
-
     }
+
+    /**
+     * Általános metódus kívánt formátumú String generálására egy dátumértékből.
+     * @param date LocalDate típusú objektum az átalakítandó dátummal
+     * @return String érték a megfelelő formátummal
+     */
     public static String generateDate(LocalDate date) {
         String strReturnDat= String.valueOf(date.getYear());
         if(date.getMonth().getValue() < 10) {
@@ -132,6 +180,9 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * Sörfőzőegységeket ábrázoló GUI frissítése főzőegység fejlesztés és vásárlás után
+     */
     private static void upgradeCookingUnitUI() {
         Dimension cookingUnitDim = new Dimension(screenSize.width/5, screenSize.width/5);
         for (int i = 0; i < 3; i++) {
@@ -150,7 +201,7 @@ public class MainFrame extends JFrame {
                         break;
                 }
                 cookingUnit.setIcon(new ImageIcon(brewingUnit.getImage().getScaledInstance(cookingUnitDim.width, cookingUnitDim.height, Image.SCALE_SMOOTH)));
-
+                cookingUnit.setEnabled(true);
 
             }
             else {
@@ -163,12 +214,18 @@ public class MainFrame extends JFrame {
     }
 
 
+    /**
+     * Az állapotsáv kinézetének beállítása, miután a szövegek renderelése megtörtént
+     */
     public void adjustAfterRendered() {
         int compwidth= moneyText.getWidth() + reputationText.getWidth() + dateText.getWidth() + 25*5 +100;
-        System.out.println(compwidth);
         nameText.setPreferredSize(new Dimension(screenSize.width - compwidth, 35));
     }
 
+    /**
+     * Sörfőzőegységek kinézetének inicializálása indításkor
+     * @return egységeket ábrázoló gombokat tartalmazó JPanel
+     */
     private JPanel initCookingUnit() {
         Dimension cookingUnitDim = new Dimension(screenSize.width/5, screenSize.width/5);
         JPanel cookingUnitPanel = new JPanel();
@@ -196,7 +253,7 @@ public class MainFrame extends JFrame {
                         break;
                 }
                 cookingUnit.setIcon(new ImageIcon(brewingUnit.getImage().getScaledInstance(cookingUnitDim.width, cookingUnitDim.height, Image.SCALE_SMOOTH)));
-
+                cookingUnit.setEnabled(true);
 
             }
             else {
@@ -222,7 +279,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!openTools) {
-                    toolFrame = new BrewingFrame(0);
+                    toolFrame = new BrewingFrame(1);
                     recipeFrame.dispose();
                     openRecipe = false;
                 }
@@ -232,7 +289,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!openTools) {
-                    toolFrame = new BrewingFrame(0);
+                    toolFrame = new BrewingFrame(2);
                     recipeFrame.dispose();
                     openRecipe = false;
                 }
@@ -244,7 +301,10 @@ public class MainFrame extends JFrame {
         return cookingUnitPanel;
     }
 
-
+    /**
+     * Állapotsáv(pénz, népszerúség, főzde neve, dátum) inicializálása
+     * @return állapotsávot tartalmazó JPanel
+     */
     private JPanel initStatusBar() {
         JPanel statusBar = new JPanel();
         statusBar.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 0)); //(int)(screenSize.getWidth()*0.013)
@@ -256,7 +316,7 @@ public class MainFrame extends JFrame {
         nameText.setHorizontalAlignment(JLabel.CENTER);
 
         statusBar.add(moneyText = makeLabel(new ImageIcon("coins.png"),String.format("%,d",player.money), iconDim));
-        statusBar.add(reputationText= makeLabel(new ImageIcon("star.png"), Double.toString(player.reputation), iconDim));
+        statusBar.add(reputationText= makeLabel(new ImageIcon("star.png"), String.format(Locale.US, "%.1f",player.reputation), iconDim));
         statusBar.add(nameText);
         statusBar.add(Box.createRigidArea(new Dimension(100, 35)));
         statusBar.add(dateText = makeLabel(new ImageIcon("calendar.png"), generateDate(Data.startDate.plusWeeks(player.turn)), iconDim));
@@ -264,6 +324,10 @@ public class MainFrame extends JFrame {
         return statusBar;
     }
 
+    /**
+     *Vezérlősávot hoz létre, amivel meg lehet nyitni a megfelelő ablakokat
+     * @return vezérlő gombokat tartalmazó JPanel
+     */
     private JPanel initActionBar() {
         JPanel actionBar = new JPanel();
         Dimension actionButDim = new Dimension((int)(screenSize.height*0.075), (int)(screenSize.height*0.075));
@@ -321,6 +385,14 @@ public class MainFrame extends JFrame {
         return actionBar;
 
     }
+
+    /**
+     * Vezérlő gomb létrehozása
+     * @param img gomb ikonja
+     * @param bgcolor gomb háttérszíne
+     * @param butDim gomb mérete
+     * @return kész gomb JButton objektuma
+     */
     private JButton makeActionButton(ImageIcon img, Color bgcolor, Dimension butDim) {
         JButton button = new JButton();
         button.setVisible(true);
@@ -331,6 +403,13 @@ public class MainFrame extends JFrame {
         return button;
     }
 
+    /**
+     * Az állapotsáv feliratait létrehozó metódus
+     * @param img felirat ikonja
+     * @param text felirat szövege
+     * @param imgD gomb mérete
+     * @return kész felirat JLabel objektuma
+     */
     private JLabel makeLabel(ImageIcon img, String text, Dimension imgD) {
         JLabel label = new JLabel();
         Image userImg = img.getImage().getScaledInstance(imgD.width, imgD.height,Image.SCALE_SMOOTH);
@@ -343,6 +422,12 @@ public class MainFrame extends JFrame {
         return label;
     }
 
+    /**
+     * Több soros szövegeket HTML segítségével generáló metódus
+     * @param strings sorok tömbje
+     * @param preferredLinesize sorok ideális száma
+     * @return String objektum a kész szöveggel
+     */
     public static String multiLineGenerator(String[] strings, int preferredLinesize) {
         String finalStr = "<html>" + strings[0];
         for(int i = 1; i < strings.length; i++) {

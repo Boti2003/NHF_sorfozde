@@ -2,12 +2,22 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Adatok beolvasása és az adatstruktúra felépítéséért felelős osztály
+ */
 public class DataManager {
     static File rfile = new File("recipes.txt"); //recept txt
-    static File pfile = new File("pubs.txt");
-    static File ffile = new File("festivals.txt");
-    static File sfile = new File("styles.txt");
-    static File dfile = new File("general_data"); //general data sorositott file
+    static File pfile = new File("pubs.txt"); //pub txt
+    static File ffile = new File("festivals.txt"); // sörfesztivál txt
+    static File sfile = new File("styles.txt"); //stílus txt
+    static File dfile = new File("general_data"); //general data sorosított fájl
+
+    /**
+     * Ellenőrzi, hogy először lett-e elindítva a játék, ekkor txt fájlok segítségével építi fel az adatszerkezetet.
+     * Ha nem először van indítva, a general_data sorosított fájlból olvassa be az adatstruktúrát, szerializáció segítségével.
+     * @throws IOException ha a fájl nem található.
+     * @throws ClassNotFoundException ha nem található a sorosított objektum osztálya.
+     */
     public static void buildDataStructure() throws IOException, ClassNotFoundException {
 
         if(!dfile.exists()) {
@@ -28,11 +38,19 @@ public class DataManager {
 
         }
     }
+    /**
+     * Létrehozza a különböző sörfőzőeszközöket a játék adatszerkezetében.
+     */
     public static void initBrewingTools() {
         MainFrame.gData.tools.add(new BrewingTool(50000, 150000, 250, 1));
         MainFrame.gData.tools.add(new BrewingTool(75000, 250000, 500, 2));
         MainFrame.gData.tools.add(new BrewingTool(100000, 400000, 1000, 3));
     }
+    /**
+     * Beolvassa a stílusokat tartalmazó fájlt és integrálja a játék adatszerkezetébe.
+     *
+     * @throws FileNotFoundException ha a fájl nem található
+     */
     public static void readStyleFile() throws FileNotFoundException {
         Scanner fSc = new Scanner(sfile);
         while (fSc.hasNext()) {
@@ -40,7 +58,11 @@ public class DataManager {
             MainFrame.gData.styles.put(split[0], Double.parseDouble(split[1]));
         }
     }
-
+    /**
+     * Beolvassa a pubokat tartalmazó fájlt és integrálja a játék adatszerkezetébe.
+     *
+     * @throws FileNotFoundException ha a fájl nem található
+     */
     public static void readPubFile() throws FileNotFoundException {
         Scanner fSc = new Scanner(pfile);
         while(fSc.hasNext()) {
@@ -49,7 +71,11 @@ public class DataManager {
         }
 
     }
-
+    /**
+     * Beolvassa a fesztiválokat tartalmazó fájlt és integrálja a játék adatszerkezetébe.
+     *
+     * @throws FileNotFoundException ha a fájl nem található
+     */
     public static void readFestFile() throws FileNotFoundException {
         Scanner fSc = new Scanner(ffile);
         while(fSc.hasNext()) {
@@ -60,9 +86,11 @@ public class DataManager {
 
     }
 
-
-
-
+    /**
+     * Beolvassa a recepteket tartalmazó fájlt és integrálja a játék adatszerkezetébe.
+     *
+     * @throws FileNotFoundException ha a fájl nem található
+     */
     public static void readRecipefile() throws FileNotFoundException {
         Scanner fSc = new Scanner(rfile);
         while(fSc.hasNext()) {
@@ -78,6 +106,14 @@ public class DataManager {
         }
 
     }
+    /**
+     * Beolvassa a megadott alapanyagokat tartalmazó fájlt, és létrehozza az adott típusú alapanyagokat tartalmazó HashMap-et,
+     * amiben megfelelő típusú objektumokban tárolja az adatokat.
+     *
+     * @param file az alapanyagokat tartalmazó fájl neve, ahonnan az adatokat olvassa
+     * @return {@code HashMap}, ahol az alapanyagok neve a kulcs
+     * @throws FileNotFoundException ha a fájl nem található
+     */
     public static HashMap<String, Material> readMatfile(String file) throws FileNotFoundException {
         HashMap<String, Material> materialMap = new HashMap<>();
         File matData = new File(file);
@@ -107,6 +143,10 @@ public class DataManager {
         return materialMap;
     }
 
+    /**
+     * Adatok mentése szerializációval a general_data fájlba
+     * @throws IOException ha a fájl nem található
+     */
     public static void saveData() throws IOException {
         FileOutputStream fout = new FileOutputStream(dfile);
         ObjectOutputStream out = new ObjectOutputStream(fout);
